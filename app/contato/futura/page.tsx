@@ -29,6 +29,11 @@ export default function FuturaContact () {
             <Textarea id="mensagem" name="mensagem"/>
           </div>
           <div>
+            <label htmlFor="file_input" className="p-2 rounded-md">
+              <Input type="file" accept="image/*, application/pdf, .doc, .docx"/>
+            </label>
+          </div>
+          <div>
             <Button className="w-full">
               <Mail />
               Enviar mensagem
