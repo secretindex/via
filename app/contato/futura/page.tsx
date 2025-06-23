@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, BaseSyntheticEvent } from "react";
 import { useDropzone } from "react-dropzone";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail } from "lucide-react";
+import { Mail, Search } from "lucide-react";
+import axios from "axios";
 
 export default function FuturaContact() {
   // axios
@@ -23,7 +24,18 @@ export default function FuturaContact() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
+  const [aiMessage, setAiMessage] = useState<string>("");
+  const [aiResponse, setAiResponse] = useState<string>("");
+
   const [file, setFile] = useState(null);
+
+  const handleSendAiMessage = async (e: BaseSyntheticEvent) => {
+    e.preventDefault();
+    if (!aiMessage) return;
+
+    const response = await axios.post("/api/roosebot", { question: aiMessage });
+    console.log(response.data);
+  };
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
@@ -76,6 +88,34 @@ export default function FuturaContact() {
             </Button>
           </div>
         </form>
+        <div className="flex flex-col gap-4 w-full">
+          <h2>Pergunte ao Roosebot</h2>
+          <div className="flex flex-col gap-2">
+            <label>Faça uma pergunta</label>
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                id="ai-question"
+                onChange={(e: BaseSyntheticEvent) =>
+                  setAiMessage(e.target.value)
+                }
+                name="ai-question"
+              />
+              <Button onClick={handleSendAiMessage} className="cursor-pointer">
+                <Search />
+              </Button>
+            </div>
+          </div>
+          <div>
+            <label>Resposta do modelo</label>
+            <Textarea
+              name="ai-answer"
+              id="ai-answer"
+              value={aiResponse}
+              readOnly
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
