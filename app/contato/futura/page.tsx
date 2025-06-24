@@ -34,7 +34,9 @@ export default function FuturaContact() {
     if (!aiMessage) return;
 
     const response = await axios.post("/api/roosebot", { question: aiMessage });
-    console.log(response.data);
+    console.log(response.data.answer);
+
+    if (response.data.answer) setAiResponse(response.data.answer);
   };
 
   return (

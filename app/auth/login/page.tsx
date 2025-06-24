@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { LogIn } from "lucide-react";
+import Link from "next/link";
 
 const Login = () => {
   const handleLogin = () => {
@@ -24,6 +25,11 @@ const Login = () => {
           <div className="w-full">
             <label htmlFor="password">Senha</label>
             <Input id="email" name="nome" type="password" />
+          </div>
+          <div>
+            <span>
+              Quero falar como o <Link href={"/roosebot"}>Roosebot</Link>
+            </span>
           </div>
           <div className="w-full">
             <Button className="w-full" onClick={handleLogin}>

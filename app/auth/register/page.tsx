@@ -6,6 +6,7 @@ import { User } from "lucide-react";
 
 import { signup } from "./actions";
 import { BaseSyntheticEvent, useState } from "react";
+import Link from "next/link";
 
 const Register = () => {
   const [name, setName] = useState<string>("");
@@ -91,6 +92,11 @@ const Register = () => {
               <span>{errorMessage}</span>
             </div>
           )}
+          <div>
+            <span>
+              Quero falar como o <Link href={"/roosebot"}>Roosebot</Link>
+            </span>
+          </div>
           <div className="w-full">
             <Button className="w-full" onSubmit={handleRegister}>
               Registrar-se
