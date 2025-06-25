@@ -8,28 +8,16 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const { question } = await req.json();
+    const { chatAiMessages } = await req.json();
 
-    console.log(question);
+    console.log("this is from API", chatAiMessages);
 
     const completion = await openai.chat.completions.create({
       model: "deepseek/deepseek-r1:free",
-      messages: [
-        {
-          role: "system",
-          content: `Você é o Roosebot, um assistente virtual carismático e direto.
-          Sempre fale em português do Brasil. Use gírias leves, seja simpático e divertido,
-          mas sempre forneça respostas corretas sobre o sistema da empresa. Voce é o bot que tem o
-          nome do patrão da empresa.`,
-        },
-        {
-          role: "user",
-          content: question,
-        },
-      ],
+      messages: chatAiMessages,
     });
 
-    console.log(completion.choices);
+    console.log(completion.choices[0].message);
 
     return NextResponse.json({ answer: completion.choices[0].message.content });
   } catch (error: any) {

@@ -1,15 +1,21 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
-type Message = {
+export type AiMessage = {
   role: "user" | "assistant" | "system";
   content: string;
 };
 
 type RoosebotContextType = {
-  messages: Message[];
-  addMessage: (message: Message) => void;
+  messages: AiMessage[];
+  setMessages: Dispatch<SetStateAction<AiMessage[]>>;
   clearChat: () => void;
 };
 
@@ -18,26 +24,22 @@ export const RoosebotContext = createContext<RoosebotContextType | undefined>(
 );
 
 export const RoosebotProvider = ({ children }: { children: ReactNode }) => {
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState<AiMessage[]>([
     {
       role: "system",
       content: `Você é o Roosebot, um assistente virtual carismático e direto.
-         fale em português do Brasil. Use gírias leves, seja simpático e divertido,
+         fale em português do Brasil. Seja simpático e divertido,
          sempre forneça respostas corretas sobre o sistema da empresa. Voce é o bot que tem o
          nome do patrão da empresa, que é Roosevelt.`,
     },
   ]);
-
-  const addMessage = (message: Message) => {
-    setMessages((prev) => [...prev, message]);
-  };
 
   const clearChat = () => {
     setMessages([
       {
         role: "system",
         content: `Você é o Roosebot, um assistente virtual carismático e direto.
-             fale em português do Brasil. Use gírias leves, seja simpático e divertido,
+             fale em português do Brasil. Seja simpático e divertido,
              sempre forneça respostas corretas sobre o sistema da empresa. Voce é o bot que tem o
              nome do patrão da empresa, que é Roosevelt.`,
       },
@@ -45,7 +47,7 @@ export const RoosebotProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <RoosebotContext.Provider value={{ messages, addMessage, clearChat }}>
+    <RoosebotContext.Provider value={{ messages, setMessages, clearChat }}>
       {children}
     </RoosebotContext.Provider>
   );

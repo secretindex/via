@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { User } from "lucide-react";
 
-import { signup } from "./actions";
+// import { signup } from "./actions";
 import { BaseSyntheticEvent, useState } from "react";
 import Link from "next/link";
 
@@ -94,7 +94,10 @@ const Register = () => {
           )}
           <div>
             <span>
-              Quero falar como o <Link href={"/roosebot"}>Roosebot</Link>
+              Quero falar como o{" "}
+              <Link href={"/roosebot"} className="underline">
+                Roosebot
+              </Link>
             </span>
           </div>
           <div className="w-full">
