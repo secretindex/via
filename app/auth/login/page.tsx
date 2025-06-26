@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LogIn } from "lucide-react";
 import Link from "next/link";
 import { BaseSyntheticEvent } from "react";
 
@@ -17,24 +16,30 @@ const Login = () => {
       <div className="rounded-md flex flex-col justify-center items-center gap-2 p-4 w-1/4 border-[1px] border-[#0004]">
         <form
           action="post"
-          className="w-full flex flex-col justify-center items-center gap-2"
+          className="w-full flex flex-col justify-center items-center gap-3"
         >
-          <div className="flex gap-2 items-center">
-            <LogIn className="size-4" />
-            <h1 className="text-xl font-bold">Login</h1>
+          <div className="flex flex-col w-full justify-center gap-1">
+            <h1 className="text-2xl font-bold">Entre na sua conta</h1>
+            <span className="text-sm text-gray-500">
+              Digite seu email e sua senha para entrar
+            </span>
           </div>
-          <div className="w-full">
-            <label htmlFor="email">E-mail</label>
+          <div className="w-full flex flex-col gap-2">
+            <label htmlFor="email" className="text-sm font-bold">
+              Email
+            </label>
             <Input id="email" name="nome" type="email" />
           </div>
-          <div className="w-full">
-            <label htmlFor="password">Senha</label>
+          <div className="w-full flex flex-col gap-2">
+            <label htmlFor="password" className="text-sm font-bold">
+              Senha
+            </label>
             <Input id="email" name="nome" type="password" />
           </div>
-          <div>
-            <span>
+          <div className="flex w-full">
+            <span className="flex-start text-gray-600">
               Quero falar como o{" "}
-              <Link className="underline" href={"/roosebot"}>
+              <Link className="underline text-amber-600" href={"/roosebot"}>
                 Roosebot
               </Link>
             </span>
