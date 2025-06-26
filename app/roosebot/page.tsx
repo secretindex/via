@@ -80,15 +80,15 @@ const Roosebot = () => {
 
     setIsThinking(true);
 
-    roosebot?.setMessages((prev: AiMessage[]) => {
+    roosebot?.setMessages((prev) => {
       const hasUserData = prev.some(
         (val) => JSON.stringify(val) === JSON.stringify(userInfo),
       );
 
       if (hasUserData) {
-        return [...prev, userMessage];
+        return [...prev, userMessage] as AiMessage[];
       } else {
-        return [...prev, userInfo, userMessage];
+        return [...prev, userInfo, userMessage] as AiMessage[];
       }
     });
 
