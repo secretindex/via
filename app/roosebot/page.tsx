@@ -36,6 +36,7 @@ const Roosebot = () => {
   >("nao especificado");
 
   const isResponding = useRef(false);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
 
   console.log(roosebot?.messages);
 
@@ -66,6 +67,10 @@ const Roosebot = () => {
 
     sendChatMessage();
   }, [hasNewMessage, roosebot!.messages, roosebot!.setMessages]);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [roosebot!.messages]);
 
   const handleSubmitMessage = async () => {
     const userInfo = {
@@ -132,8 +137,11 @@ const Roosebot = () => {
             </Button>
           </div>
         </div>
-        <div id="message-box" className="rounded-md h-full p-4 w-full">
-          <div className="flex flex-col gap-2 p-4 max-h-[70vh] overflow-y-auto">
+        <div
+          id="message-box"
+          className="rounded-md h-full max-h-full overflow-auto p-4 w-full"
+        >
+          <div className="flex flex-col gap-2 p-4 max-h-full overflow-y-auto">
             {roosebotMessages!.map((message, i) => {
               return (
                 <div
@@ -149,6 +157,7 @@ const Roosebot = () => {
                 </div>
               );
             })}
+            <div ref={bottomRef} />
           </div>
         </div>
         {isThinking && (
