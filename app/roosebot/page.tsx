@@ -3,17 +3,17 @@
 import { AiMessage, RoosebotContext } from "@/components/ChatContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import axios from "axios";
 import { ArrowUpFromDot, Trash } from "lucide-react";
 import {
   BaseSyntheticEvent,
   useContext,
   useEffect,
-  useInsertionEffect,
   useRef,
   useState,
 } from "react";
 import ReactMarkdown from "react-markdown";
+
+import { toast } from "sonner";
 
 import {
   Select,
@@ -48,14 +48,31 @@ const Roosebot = () => {
     const sendChatMessage = async () => {
       try {
         console.log("This is the object going to API", roosebot?.messages);
-        const res = await axios.post("/api/roosebot", {
-          chatAiMessages: roosebot?.messages,
+
+        const data = await fetch("/api/roosebot", {
+          method: "POST",
+          body: JSON.stringify({ chatAiMessages: roosebot?.messages }),
+          headers: { "Content-Type": "application/json" },
         });
 
-        roosebot?.setMessages((prev) => [
-          ...prev,
-          { role: "assistant", content: res.data.answer },
-        ]);
+        const res = await data.json();
+
+        console.log(res);
+
+        if (res.error)
+          toast(res.error.error.message, {
+            description: "Erro no modelo",
+            action: {
+              label: "Ok",
+              onClick: () => console.log("Ok"),
+            },
+          });
+
+        if (res.data)
+          roosebot?.setMessages((prev) => [
+            ...prev,
+            { role: "assistant", content: res.data.answer },
+          ]);
       } catch (error: any) {
         console.log(error);
       } finally {

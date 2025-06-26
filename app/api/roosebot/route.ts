@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     console.log("this is from API", chatAiMessages);
 
     const completion = await openai.chat.completions.create({
-      model: "deepseek/deepseek-r1:free",
+      model: "sarvamai/sarvam-m:free",
       messages: chatAiMessages,
     });
 
