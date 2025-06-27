@@ -24,20 +24,18 @@ export default function FuturaContact() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
-  const [aiMessage, setAiMessage] = useState<string>("");
-  const [aiResponse, setAiResponse] = useState<string>("");
+  // const [file, setFile] = useState(null);
+  // Later to be implemented functionality
 
-  const [file, setFile] = useState(null);
-
-  const handleSendAiMessage = async (e: BaseSyntheticEvent) => {
-    e.preventDefault();
-    if (!aiMessage) return;
-
-    const response = await axios.post("/api/roosebot", { question: aiMessage });
-    console.log(response.data.answer);
-
-    if (response.data.answer) setAiResponse(response.data.answer);
-  };
+  const handleSendFormToEmail = () => {
+    console.log([
+      name,
+      title,
+      email,
+      phoneNumber,
+      message
+    ]);
+  }
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
@@ -46,23 +44,23 @@ export default function FuturaContact() {
         <form action="post" className="w-full flex flex-col gap-3">
           <div>
             <label htmlFor="nome">Nome</label>
-            <Input id="nome" name="nome" type="text" />
+            <Input id="nome" name="nome" onChange={(e: BaseSyntheticEvent) => setName(e.target.value)} type="text" />
           </div>
           <div>
             <label htmlFor="title">Assunto</label>
-            <Input id="title" name="title" type="text" />
+            <Input id="title" name="title" onChange={(e: BaseSyntheticEvent) => setTitle(e.target.value)} type="text" />
           </div>
           <div>
             <label htmlFor="nome">Número</label>
-            <Input id="nome" name="numero" type="text" />
+            <Input id="nome" name="numero" onChange={(e: BaseSyntheticEvent) => setPhoneNumber(e.target.value)} type="text" />
           </div>
           <div>
             <label htmlFor="nome">E-mail</label>
-            <Input id="email" name="email" type="email" />
+            <Input id="email" name="email" onChange={(e: BaseSyntheticEvent) => setEmail(e.target.value)} type="email" />
           </div>
           <div>
             <label htmlFor="mensagem">Mensagem</label>
-            <Textarea id="mensagem" name="mensagem" />
+            <Textarea id="mensagem" name="mensagem" onChange={(e: BaseSyntheticEvent) => setMessage(e.target.value)} />
           </div>
           <div>
             <div
@@ -84,40 +82,12 @@ export default function FuturaContact() {
             </div>
           </div>
           <div>
-            <Button className="w-full">
+            <Button onClick={handleSendFormToEmail} className="w-full">
               <Mail />
               Enviar mensagem
             </Button>
           </div>
         </form>
-        <div className="flex flex-col gap-4 w-full">
-          <h2>Pergunte ao Roosebot</h2>
-          <div className="flex flex-col gap-2">
-            <label>Faça uma pergunta</label>
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                id="ai-question"
-                onChange={(e: BaseSyntheticEvent) =>
-                  setAiMessage(e.target.value)
-                }
-                name="ai-question"
-              />
-              <Button onClick={handleSendAiMessage} className="cursor-pointer">
-                <Search />
-              </Button>
-            </div>
-          </div>
-          <div>
-            <label>Resposta do modelo</label>
-            <Textarea
-              name="ai-answer"
-              id="ai-answer"
-              value={aiResponse}
-              readOnly
-            />
-          </div>
-        </div>
       </div>
     </div>
   );
