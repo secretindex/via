@@ -68,10 +68,10 @@ const Roosebot = () => {
             },
           });
 
-        if (res.data)
+        if (res.answer)
           roosebot?.setMessages((prev) => [
             ...prev,
-            { role: "assistant", content: res.data.answer },
+            { role: "assistant", content: res.answer },
           ]);
       } catch (error: any) {
         console.log(error);
@@ -123,8 +123,8 @@ const Roosebot = () => {
   };
 
   return (
-    <div className="h-screen w-full flex flex-col justify-center items-center">
-      <div className="rounded-md flex flex-col min-h-3/4 max-h-3/4 items-center gap-2 p-4 w-2/4 border-[1px] border-[#0004]">
+    <div className="w-full flex flex-col h-screen h-max-screen justify-center items-center">
+      <div className="rounded-md flex flex-col min-h-3/4 max-h-3/4 items-center gap-2 p-4 w-3/4 border-[1px] border-[#0004]">
         <div className="flex px-4 py-3 w-full items-center justify-between border-b-[1px] border-b-[#0002]">
           <h1 className="text-xl font-bold">Fale com o Roosebot!</h1>
           <div className="flex gap-2">

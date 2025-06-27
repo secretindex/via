@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENAI_API_KEY as string,
 });
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
 
 export async function POST(req: Request) {
   try {
@@ -13,11 +16,11 @@ export async function POST(req: Request) {
     console.log("this is from API", chatAiMessages);
 
     const completion = await openai.chat.completions.create({
-      model: "sarvamai/sarvam-m:free",
+      model: "deepseek/deepseek-r1-0528:free",
       messages: chatAiMessages,
     });
 
-    console.log(completion.choices[0].message);
+    console.log(completion);
 
     return NextResponse.json({ answer: completion.choices[0].message.content });
   } catch (error: any) {
