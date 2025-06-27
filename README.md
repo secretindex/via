@@ -1,4 +1,4 @@
-** Todos
+# Todos
 - Make contact forms work
 - Implement a new AI Model for Roosebot
 - Make login functionality
