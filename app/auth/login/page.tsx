@@ -36,11 +36,17 @@ const Login = () => {
             </label>
             <Input id="email" name="nome" type="password" />
           </div>
-          <div className="flex w-full">
+          <div className="flex flex-col w-full">
             <span className="flex-start text-gray-600">
               Quero falar como o{" "}
               <Link className="underline text-amber-600" href={"/roosebot"}>
                 Roosebot
+              </Link>
+            </span>
+            <span className="flex-start text-gray-600">
+              Quero falar como o {" "}
+              <Link className="underline text-amber-600" href={"/geminibot"}>
+                Roosebot 2.0
               </Link>
             </span>
           </div>

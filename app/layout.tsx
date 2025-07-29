@@ -4,9 +4,10 @@ import "./globals.css";
 import { RoosebotProvider } from "@/components/ChatContext";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import {AppSidebar} from "@/components/app-sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
 
 import { Toaster } from "@/components/ui/sonner";
+import { GeminiProvider } from "@/components/GeminiContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,10 +36,12 @@ export default function RootLayout({
       >
         <SidebarProvider>
           <AppSidebar />
-          <RoosebotProvider>
-            <SidebarTrigger className="m-2" />
-            {children}
-          </RoosebotProvider>
+          <GeminiProvider>
+            <RoosebotProvider>
+              <SidebarTrigger className="m-2" />
+              {children}
+            </RoosebotProvider>
+          </GeminiProvider>
           <Toaster />
         </SidebarProvider>
       </body>
