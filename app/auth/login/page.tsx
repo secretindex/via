@@ -13,7 +13,7 @@ const Login = () => {
 
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
-      <div className="rounded-md flex flex-col justify-center items-center gap-2 p-4 w-1/4 border-[1px] border-[#0004]">
+      <div className="rounded-md flex flex-col justify-center items-center gap-2 p-4 w-1/3 border-[1px] border-[#0004]">
         <form
           action="post"
           className="w-full flex flex-col justify-center items-center gap-3"
@@ -38,15 +38,9 @@ const Login = () => {
           </div>
           <div className="flex flex-col w-full">
             <span className="flex-start text-gray-600">
-              Quero falar como o{" "}
-              <Link className="underline text-amber-600" href={"/roosebot"}>
-                Roosebot
-              </Link>
-            </span>
-            <span className="flex-start text-gray-600">
               Quero falar como o {" "}
-              <Link className="underline text-amber-600" href={"/geminibot"}>
-                Roosebot 2.0
+              <Link className="underline text-bold text-red-600" href={"/roosebot_premium"}>
+                Roosebot Premium
               </Link>
             </span>
           </div>

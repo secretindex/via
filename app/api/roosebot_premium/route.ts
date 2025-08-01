@@ -1,11 +1,18 @@
 import { NextResponse } from "next/server";
 import { GoogleGenAI } from "@google/genai";
+import fs from "fs/promises"
+import path from "path";
 
-const ai = new GoogleGenAI({ apiKey: process.env.OPENAI_API_KEY as string });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
 
 export async function POST (req: Request) {
   try {
     const { chatAiHistory, message } = await req.json()
+    const filePath = path.join(process.cwd(), "public", "instructions.txt")
+    const instructions = await fs.readFile(filePath, "utf-8")
+
+    console.log(filePath)
+
     console.log(chatAiHistory)
 
     console.log(chatAiHistory, message)
@@ -14,7 +21,7 @@ export async function POST (req: Request) {
       model: "gemini-2.5-flash-lite",
       history: chatAiHistory,
       config: {
-        systemInstruction: "Você é uma conselheira, seu nome é Júlia",
+        systemInstruction: instructions,
       },
     })
 

@@ -37,7 +37,7 @@ const Roosebot = () => {
   console.log(history)
 
   const handleSubmitMessage = async () => {
-    const res = await axios.post("/api/gemini", { chatAiHistory: history, message: aiMessage });
+    const res = await axios.post("/api/roosebot_premium", { chatAiHistory: history, message: aiMessage });
 
     setAiMessage("")
 
@@ -55,7 +55,7 @@ const Roosebot = () => {
     <div className="w-full flex flex-col h-screen h-max-screen justify-center items-center">
       <div className="rounded-md flex flex-col min-h-3/4 max-h-3/4 items-center gap-2 p-4 w-3/4 border-[1px] border-[#0004]">
         <div className="flex px-4 py-3 w-full items-center justify-between border-b-[1px] border-b-[#0002]">
-          <h1 className="text-xl font-bold">Fale com o Geminibot!</h1>
+          <h1 className="text-xl font-bold">Fale com o Roosebot Premium!</h1>
           <div className="flex gap-2">
             <Input
               placeholder="Digite seu nome"
