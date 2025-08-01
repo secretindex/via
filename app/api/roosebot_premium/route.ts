@@ -10,6 +10,8 @@ export async function POST (req: Request) {
     const { chatAiHistory, message } = await req.json()
     const filePath = path.join(process.cwd(), "public", "instructions.txt")
     const instructions = await fs.readFile(filePath, "utf-8")
+    
+    // Add database file information collection - supabase or mongodb (mongodb preferred)
 
     console.log(filePath)
 
