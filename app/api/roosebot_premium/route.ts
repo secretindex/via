@@ -13,12 +13,6 @@ export async function POST (req: Request) {
     
     // Add database file information collection - supabase or mongodb (mongodb preferred)
 
-    console.log(filePath)
-
-    console.log(chatAiHistory)
-
-    console.log(chatAiHistory, message)
-
     const chat = ai.chats.create({
       model: "gemini-2.5-flash-lite",
       history: chatAiHistory,

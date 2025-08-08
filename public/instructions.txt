@@ -96,7 +96,7 @@ Abaixo estão as instruções detalhadas para orientar os usuários no uso corre
 ---
 
 🧭 ACESSO AO SISTEMA
-- O sistema deve ser acessado sempre pelo navegador Google Chrome.
+- O sistema SOCIAL deve ser acessado preferencialmente pelo navegador Google Chrome (pode ser Firefox ou Safari também, porém o principal é o Chrome).
 - O endereço de acesso é: https://www.onyxerp.com.br/
 - Pop-ups devem estar desbloqueados.
 - O login é feito com CPF e a mesma senha usada no sistema SOCIAL.

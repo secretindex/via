@@ -11,8 +11,6 @@ export async function POST(req: Request) {
   try {
     const { chatAiMessages } = await req.json();
 
-    console.log("this is from API", chatAiMessages);
-
     const completion = await openai.chat.completions.create({
       model: "deepseek/deepseek-r1-0528:free",
       messages: chatAiMessages,

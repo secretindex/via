@@ -2,8 +2,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import { BaseSyntheticEvent } from "react";
+
+import Link from "next/link";
 
 const Login = () => {
   const handleLogin = (e: BaseSyntheticEvent) => {
