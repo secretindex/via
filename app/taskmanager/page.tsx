@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, BaseSyntheticEvent } from "react";
 import axios from "axios";
+import { Trash2 } from "lucide-react";
 
 type Task = {
   title: string
@@ -72,10 +73,10 @@ const TaskManager = () => {
           </form>
         </div>
       </div>
-      <div className="rounded-md p-4 w-2/3 border-[1px] border-[#0003]">
+      <div className="flex flex-col rounded-md p-4 gap-4 w-2/3 border-[1px] border-[#0003]">
         <h2 className="text-sm font-bold text-center">Tasks</h2>
         <div>
-          <ul>
+          <ul className="flex flex-col gap-2">
             {
               taskList && taskList.map((task, i) => {
                 return (
@@ -85,7 +86,9 @@ const TaskManager = () => {
                       <span className="text-sm text-gray-800">{task.description}</span>
                     </div>
                     <div>
-                      <Button onClick={() => deleteTask(task.id)}>Delete</Button>
+                      <Button className="cursor-pointer bg-transparent border-[1px] hover:bg-red-100 border-[#0003] text-red-500" onClick={() => deleteTask(task.id)}>
+                        <Trash2 />
+                      </Button>
                     </div>
                   </li>
                 )

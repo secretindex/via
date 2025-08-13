@@ -1,19 +1,18 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
-import { NextApiRequest } from "next";
 
-export default async function handler(req: NextApiRequest) {
+export async function DELETE({ params }: { params: { id: string } }) {
   try {
-    if (req.method === "DELETE") {
       const supabase = createClient();
-      const slug = req.query;
 
-      console.log(slug, req.query);
+      const { id } = await params
+
+      console.log(id, params)
 
       const { error } = await (await supabase)
         .from("tasks")
         .delete()
-        .eq("id", slug);
+        .eq("id", id);
 
       if (error) {
         throw new Error(error.message);
@@ -23,7 +22,6 @@ export default async function handler(req: NextApiRequest) {
           status: "ok",
         });
       }
-    }
   } catch (e) {
     return NextResponse.json({ message: e, status: "fail" });
   }
