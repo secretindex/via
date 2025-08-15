@@ -4,12 +4,14 @@ import { Input } from "@/components/ui/input"
 import { BaseSyntheticEvent, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
 import { Button } from "@/components/ui/button"
+import { Island_Moments } from "next/font/google"
 
 type AuthOption = "Login" | "Register"
 
 const Auth = () => {
   const supabase = createClient()
   const [authOpt, setAuthOpt] = useState<AuthOption>("Register")
+
 
   if (authOpt === "Login") {
     const [email, setEmail] = useState<string>("")
@@ -58,7 +60,12 @@ const Auth = () => {
             </div>
             <div className="text-sm">
               <span>Switch to</span>{" "}
-              <a className="font-bold underline" onClick={() => setAuthOpt("Register")}>Sign Up</a>
+              <a
+                className="font-bold underline"
+                onClick={() => setAuthOpt("Register")}
+              >
+                Sign Up
+              </a>
             </div>
           </form>
         </div>
@@ -74,10 +81,22 @@ const Auth = () => {
 
       if (password !== confirmPassword) return
 
-      const { error } = await supabase.auth.signUp({ email, password })
+      console.log({ email, password })
+
+      const { data, error } = await supabase.auth.signUp({ email, password })
 
       if (error) console.error("Not allowed to sign up -> ", error.message)
+        else console.log("Please, check your email ", data)
     }
+
+    const isLoggedIn = async () => {
+      const user = await supabase.auth.getUser()
+
+
+      console.log(user);
+    }
+
+    isLoggedIn()
 
     return (
       <div className="flex flex-col justify-center items-center w-full gap-4">
@@ -85,7 +104,9 @@ const Auth = () => {
           <h1 className="text-2xl font-bold text-center">Register</h1>
           <form className="flex flex-col gap-4">
             <div className="flex flex-col gap-1">
-              <label className="text-gray-600 text-sm" htmlFor="email">Email</label>
+              <label className="text-gray-600 text-sm" htmlFor="email">
+                Email
+              </label>
               <Input
                 type="email"
                 name="email"
@@ -94,10 +115,9 @@ const Auth = () => {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <label
-                className="text-gray-600 text-sm"
-                htmlFor="password"
-              >Password</label>
+              <label className="text-gray-600 text-sm" htmlFor="password">
+                Password
+              </label>
               <Input
                 type="password"
                 name="password"
@@ -111,7 +131,9 @@ const Auth = () => {
               <label
                 className="text-gray-600 text-sm"
                 htmlFor="confirm-password"
-              >Confirm Password</label>
+              >
+                Confirm Password
+              </label>
               <Input
                 type="password"
                 name="confirm-password"
@@ -128,7 +150,12 @@ const Auth = () => {
             </div>
             <div className="text-sm flex justify-center items-center gap-1">
               <span>Switch to</span>{" "}
-              <a className="font-bold underline" onClick={() => setAuthOpt("Login")}>Sign Up</a>
+              <a
+                className="font-bold underline"
+                onClick={() => setAuthOpt("Login")}
+              >
+                Sign Up
+              </a>
             </div>
           </form>
         </div>
