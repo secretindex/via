@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/sidebar"
 import { Contact, SignpostBig, Home, Search } from "lucide-react"
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { createClient } from "@/utils/supabase/client"
 
 const items = [
   {
@@ -33,7 +35,23 @@ const items = [
   },
 ]
 
-export function AppSidebar () {
+export function AppSidebar() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
+  const supabase = createClient()
+
+  const fetchUser = async () => {
+    const { data } = await supabase.auth.getUser()
+
+    console.log("This is user data ", data)
+
+    if (data.user?.aud === "authenticated") setIsAuthenticated(true)
+    else setIsAuthenticated(false)
+  }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -56,7 +74,7 @@ export function AppSidebar () {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              { items.map((item) => {
+              {items.map((item) => {
                 return (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton asChild>
@@ -66,8 +84,8 @@ export function AppSidebar () {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
-                );
-              }) }
+                )
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -76,7 +94,8 @@ export function AppSidebar () {
         <SidebarGroup>
           <SidebarGroupLabel>
             Brahamahaj Development Centre
-          </SidebarGroupLabel>
+            { isAuthenticated && "\n\nLogged in" }
+            </SidebarGroupLabel>
         </SidebarGroup>
       </SidebarFooter>
     </Sidebar>
