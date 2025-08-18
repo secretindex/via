@@ -12,10 +12,12 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Contact, SignpostBig, Home, Search } from "lucide-react"
+import { Contact, SignpostBig, Home, Search, LogOut } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { createClient } from "@/utils/supabase/client"
+import { Button } from "./ui/button"
+import { redirect } from "next/navigation"
 
 const items = [
   {
@@ -38,6 +40,14 @@ const items = [
 export function AppSidebar() {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
   const supabase = createClient()
+  
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
+            
+    console.log("oi")
+
+    redirect("/")
+  }
 
   const fetchUser = async () => {
     const { data } = await supabase.auth.getUser()
@@ -93,9 +103,13 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarGroup>
           <SidebarGroupLabel>
-            Brahamahaj Development Centre
-            { isAuthenticated && "\n\nLogged in" }
-            </SidebarGroupLabel>
+            <div>Brahamahaj Development Centre</div>
+            {isAuthenticated && (
+              <Button onClick={handleLogout} className="bg-transparent text-black border-[1px] hover:bg-gray-100 border-[#0003]">
+                <LogOut />
+              </Button>
+            )}
+          </SidebarGroupLabel>
         </SidebarGroup>
       </SidebarFooter>
     </Sidebar>

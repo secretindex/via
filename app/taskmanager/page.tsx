@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { useState, useEffect, BaseSyntheticEvent } from "react"
+import { useState, BaseSyntheticEvent } from "react"
 import axios from "axios"
 import useSWR from "swr"
 import { Trash2 } from "lucide-react"
@@ -117,7 +117,7 @@ const TaskManager = () => {
                 )
               })}
             {error ||
-              (data?.length < 1 && (
+              ((data as Array<any>).length < 1 && (
                 <div className="w-full flex justify-center">
                   <span className="text-red-400 text-sm text-center">
                     There's no task yet...

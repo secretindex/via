@@ -1,59 +1,81 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { BaseSyntheticEvent } from "react";
-
-import Link from "next/link";
+import { createClient } from "@/utils/supabase/client"
+import { useState, BaseSyntheticEvent } from "react"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { redirect } from "next/navigation"
 
 const Login = () => {
-  const handleLogin = (e: BaseSyntheticEvent) => {
-    e.preventDefault();
-    console.log("Countercheck");
-  };
+  const supabase = createClient()
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+
+  const handleLogin = async (formData: FormData) => {
+    const eml = formData.get("email") as string
+    const passwd = formData.get("password") as string
+
+    console.log({ eml, passwd })
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: eml,
+      password: passwd,
+    })
+
+    if (error) {
+      console.error("Not allowed to login -> ", error.message)
+    } else {
+      redirect("/")
+    }
+  }
 
   return (
-    <div className="h-screen w-full flex flex-col justify-center items-center">
-      <div className="rounded-md flex flex-col justify-center items-center gap-2 p-4 w-1/3 border-[1px] border-[#0004]">
-        <form
-          action="post"
-          className="w-full flex flex-col justify-center items-center gap-3"
-        >
-          <div className="flex flex-col w-full justify-center gap-1">
-            <h1 className="text-2xl font-bold">Entre na sua conta</h1>
-            <span className="text-sm text-gray-500">
-              Digite seu email e sua senha para entrar
-            </span>
-          </div>
-          <div className="w-full flex flex-col gap-2">
-            <label htmlFor="email" className="text-sm font-bold">
+    <div className="flex flex-col justify-center items-center w-full gap-4">
+      <div className="p-4 w-2/4 rounded-md border-[1px] border-[#0003] shadow-md">
+        <h1 className="text-2xl font-bold text-center">Login</h1>
+        <form className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1">
+            <label className="text-gray-600 text-sm" htmlFor="email">
               Email
             </label>
-            <Input id="email" name="nome" type="email" />
+            <Input
+              type="email"
+              name="email"
+              id="email"
+              onChange={(e: BaseSyntheticEvent) => setEmail(e.target.value)}
+              value={email}
+            />
           </div>
-          <div className="w-full flex flex-col gap-2">
-            <label htmlFor="password" className="text-sm font-bold">
-              Senha
+          <div className="flex flex-col gap-1">
+            <label className="text-gray-600 text-sm" htmlFor="password">
+              Password
             </label>
-            <Input id="email" name="nome" type="password" />
+            <Input
+              type="password"
+              name="password"
+              id="password"
+              onChange={(e: BaseSyntheticEvent) => setPassword(e.target.value)}
+              value={password}
+            />
           </div>
-          <div className="flex flex-col w-full">
-            <span className="flex-start text-gray-600">
-              Quero falar como o {" "}
-              <Link className="underline text-bold text-red-600" href={"/roosebot_premium"}>
-                Roosebot Premium
-              </Link>
-            </span>
-          </div>
-          <div className="w-full">
-            <Button className="w-full" onClick={handleLogin}>
-              Fazer login
+          <div>
+            <Button formAction={handleLogin} className="w-full">
+              Login
             </Button>
+          </div>
+          <div className="text-sm m-auto">
+            <span>Switch to</span>{" "}
+            <a
+              className="font-bold underline cursor-pointer"
+              onClick={() => redirect("/auth/register")}
+            >
+              Sign Up
+            </a>
           </div>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

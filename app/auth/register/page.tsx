@@ -1,114 +1,106 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { User } from "lucide-react";
+import { Input } from "@/components/ui/input"
+import { BaseSyntheticEvent, useState } from "react"
+import { createClient } from "@/utils/supabase/client"
+import { Button } from "@/components/ui/button"
+import { redirect } from "next/navigation"
 
-// import { signup } from "./actions";
-import { BaseSyntheticEvent, useState } from "react";
-import Link from "next/link";
+const Auth = () => {
+  const supabase = createClient()
 
-const Register = () => {
-  const [name, setName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  const [confirmPassword, setConfirmPassword] = useState<string>("")
 
-  const handleRegister = () => {
-    if (!email) {
-      setErrorMessage("Digite um e-mail válido");
-      return;
-    }
-    if (!password) {
-      setErrorMessage("Digite uma senha válida");
-      return;
-    }
-    if (!name) {
-      setErrorMessage("Digite um nome");
-      return;
-    }
-    if (password !== confirmPassword) {
-      setErrorMessage("Senhas não coincidem");
-      return;
-    }
+  const handleRegister = async (formData: FormData) => {
+    if (password !== confirmPassword) return
 
-    const newUser = {
-      email: email,
-      password: password,
-    };
+    const [eml, passwd]: [eml: string, passwd: string] = [
+      formData.get("email") as string,
+      formData.get("password") as string,
+    ]
 
-    console.log(newUser);
-  };
+    console.log({ eml, passwd })
+
+    const { data, error } = await supabase.auth.signUp({
+      email: eml,
+      password: passwd,
+    })
+
+    if (error) console.error("Not allowed to sign up -> ", error.message)
+    else console.log("Please, check your email ", data)
+  }
+
+  const isLoggedIn = async () => {
+    const user = await supabase.auth.getUser()
+
+    console.log(user)
+  }
+
+  isLoggedIn()
 
   return (
-    <section className="h-screen w-full flex flex-col justify-center items-center">
-      <div className="rounded-md  p-4 w-1/4 border-[1px] border-[#0004]">
-        <form className="flex flex-col justify-center items-center gap-2 w-full h-full">
-          <div className="flex items-center gap-2">
-            <User className="size-4" />
-            <h1 className="text-xl font-bold">Register</h1>
-          </div>
-          <div className="w-full">
-            <label htmlFor="nome">Nome</label>
+    <div className="flex flex-col justify-center items-center w-full gap-4">
+      <div className="p-4 w-2/4 flex flex-col gap-4 rounded-md border-[1px] border-[#0003] shadow-md">
+        <h1 className="text-2xl font-bold text-center">Register</h1>
+        <form className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1">
+            <label className="text-gray-600 text-sm" htmlFor="email">
+              Email
+            </label>
             <Input
-              id="nome"
-              name="nome"
-              type="text"
-              onChange={(e: BaseSyntheticEvent) => setName(e.target.value)}
-            />
-          </div>
-          <div className="w-full">
-            <label htmlFor="email">E-mail</label>
-            <Input
-              id="email"
-              name="nome"
               type="email"
-              onChange={(e: BaseSyntheticEvent) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="w-full">
-            <label htmlFor="password">Senha</label>
-            <Input
+              name="email"
               id="email"
-              name="nome"
-              type="password"
-              onChange={(e: BaseSyntheticEvent) => setPassword(e.target.value)}
+              onChange={(e: BaseSyntheticEvent) => setEmail(e.target.value)}
+              value={email}
             />
           </div>
-          <div className="w-full">
-            <label htmlFor="confirm-password">Confirmar senha</label>
+          <div className="flex flex-col gap-1">
+            <label className="text-gray-600 text-sm" htmlFor="password">
+              Password
+            </label>
             <Input
-              id="confirm-password"
-              name="confirm-password"
               type="password"
+              name="password"
+              id="password"
+              onChange={(e: BaseSyntheticEvent) => setPassword(e.target.value)}
+              value={password}
+            />
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="text-gray-600 text-sm" htmlFor="confirm-password">
+              Confirm Password
+            </label>
+            <Input
+              type="password"
+              name="confirm-password"
+              id="confirm-password"
               onChange={(e: BaseSyntheticEvent) =>
                 setConfirmPassword(e.target.value)
               }
+              value={confirmPassword}
             />
           </div>
-          {errorMessage && (
-            <div>
-              <span>{errorMessage}</span>
-            </div>
-          )}
           <div>
-            <span>
-              Quero falar como o{" "}
-              <Link href={"/roosebot"} className="underline">
-                Roosebot
-              </Link>
-            </span>
-          </div>
-          <div className="w-full">
-            <Button className="w-full" onSubmit={handleRegister}>
-              Registrar-se
+            <Button formAction={handleRegister} className="w-full">
+              Register
             </Button>
+          </div>
+          <div className="text-sm flex justify-center items-center gap-1">
+            <span>Switch to</span>{" "}
+            <a
+              className="font-bold underline cursor-pointer"
+              onClick={() => redirect("/auth/login")}
+            >
+              Sign Up
+            </a>
           </div>
         </form>
       </div>
-    </section>
-  );
-};
+    </div>
+  )
+}
 
-export default Register;
+export default Auth
